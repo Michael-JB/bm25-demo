@@ -1,0 +1,83 @@
+body {
+  font-family: -apple-system, 'Open Sans', sans-serif;
+  line-height: 1.6;
+  background-color: #F4F4F4;
+  margin: 0;
+  padding: 2rem;
+}
+
+.inner-body {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1rem;
+}
+
+header {
+  margin-bottom: 0.4rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+header p {
+  margin: 0.6rem 0 0 0;
+  font-size: 1rem;
+}
+
+.search-input {
+  padding: 0.8rem;
+  flex-grow: 1;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0,123,255,0.2);
+}
+
+.results-table {
+  border-collapse: collapse;
+  margin-top: 0.6rem;
+}
+
+.results-table th,
+.results-table td {
+  border: 1px solid #DDD;
+  padding: 0.8rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.results-table .recipe-title {
+  margin: 0;
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+.results-table .recipe-contents {
+  margin: 0;
+}
+
+.results-table thead {
+  background-color: #F8F9FA;
+}
+
+.results-table th {
+  font-weight: 600;
+  color: #495057;
+}
