@@ -32,7 +32,7 @@ jobs:
       - name: Install Trunk
         run: cargo binstall trunk
       - name: Build
-        run: trunk build --release
+        run: trunk build --release --public-url /bm25-demo/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
