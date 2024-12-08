@@ -24,6 +24,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
       - run: cargo fmt -- --check
       - run: cargo clippy
 
@@ -38,6 +39,7 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
           toolchain: stable
+      - uses: Swatinem/rust-cache@v2
       - name: Install Binstall
         uses: cargo-bins/cargo-binstall@main
       - name: Install Trunk
@@ -51,7 +53,9 @@ jobs:
 
   deploy:
     name: 🚀 Deploy
-    needs: build
+    needs:
+      - lint
+      - build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
