@@ -87,8 +87,8 @@ pub fn App() -> impl IntoView {
 
                 let table_head = view! {
                     <tr>
-                        <th style="width: 8%">"Score"</th>
-                        <th style="width: 92%">"Recipe"</th>
+                        <th class="score-header">"Score"</th>
+                        <th>"Recipe"</th>
                     </tr>
                 };
                 let table_body = if search_results.is_empty() {
