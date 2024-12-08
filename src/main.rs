@@ -3,7 +3,6 @@ use csv::Reader;
 use gloo_net::http::Request;
 use leptos::{either::Either, prelude::*};
 
-#[derive(Clone)]
 pub struct Recipe {
     pub title: String,
     pub method: String,
@@ -24,10 +23,10 @@ async fn load_recipes() -> Vec<Recipe> {
     let mut reader = Reader::from_reader(text.as_bytes());
     reader
         .records()
-        .map(|r| r.expect("record"))
+        .filter_map(|r| r.ok())
         .map(|r| {
-            let title = r.get(0).expect("title").to_string();
-            let method = r.get(1).expect("method").to_string();
+            let title = r.get(0).expect("recipe title").to_string();
+            let method = r.get(1).expect("recipe method").to_string();
             Recipe { title, method }
         })
         .collect()
@@ -40,15 +39,15 @@ async fn get_search_engine() -> SearchEngine<String, u32> {
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (results, set_results) = signal((String::new(), Vec::<SearchResult<String>>::new()));
+    let (search, set_search) = signal((String::new(), Vec::<SearchResult<String>>::new()));
 
-    let search_engine = LocalResource::new(move || get_search_engine());
+    let search_engine = LocalResource::new(get_search_engine);
 
-    let search = move |query: String| {
-        search_engine.read().as_deref().map(|se| {
-            let search_results = se.search(&query, 5);
-            set_results.set((query, search_results));
-        });
+    let on_query_input = move |query: String| {
+        if let Some(se) = search_engine.read().as_deref() {
+            let results = se.search(&query, 5);
+            set_search.set((query, results));
+        }
     };
 
     view! {
@@ -65,8 +64,8 @@ pub fn App() -> impl IntoView {
                 </p>
                 <p>
                     "This demo is written in Rust and compiles to WebAssembly to run directly
-                    in the browser. See the "<a href="https://github.com/Michael-JB/bm25-demo">"source
-                     code"</a>"."
+                    in the browser. See the "
+                    <a href="https://github.com/Michael-JB/bm25-demo">"source code"</a>"."
                 </p>
             </header>
             <input
@@ -74,12 +73,12 @@ pub fn App() -> impl IntoView {
                 type="search"
                 placeholder="Search for a recipe..."
                 on:input:target=move |ev| {
-                    search(ev.target().value());
+                    on_query_input(ev.target().value());
                 }
             />
 
             {move || {
-                let (ref query, ref search_results) = *results.read();
+                let (ref query, ref results) = *search.read();
 
                 if query.is_empty() {
                     return None;
@@ -91,13 +90,13 @@ pub fn App() -> impl IntoView {
                         <th>"Recipe"</th>
                     </tr>
                 };
-                let table_body = if search_results.is_empty() {
+                let table_body = if results.is_empty() {
                     Either::Left(view! {<tr><td colspan="2">"No results."</td></tr>})
                 } else {
-                    Either::Right(search_results.iter().map(|result| {
+                    Either::Right(results.iter().map(|result| {
                         view! {
                             <tr>
-                                <td>{format!("{:.3}", result.score.clone())}</td>
+                                <td>{format!("{:.3}", result.score)}</td>
                                 <td>
                                     <h1 class="recipe-title">{result.document.id.clone()}</h1>
                                     <p class="recipe-contents">{result.document.contents.clone()}</p>
