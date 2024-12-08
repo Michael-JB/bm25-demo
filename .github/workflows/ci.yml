@@ -16,6 +16,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  lint:
+    name: 🧹 Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt -- --check
+      - run: cargo clippy
+
   build:
     name: 🏗️ Build
     runs-on: ubuntu-latest
