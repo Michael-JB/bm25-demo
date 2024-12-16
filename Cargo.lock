@@ -107,15 +107,16 @@ checksum = "b048fb63fd8b5923fc5aa7b340d8e156aec7ec02f0c78fa8a6ddc2613f6f71de"
 
 [[package]]
 name = "bm25"
-version = "2.1.0"
+version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf6de2a58b6042684eae57c0e9652500a970eab0e65a81ea301562e11b29b1a1"
+checksum = "bfa4ce1806d58eb62063dbfdda173803a145795eba9c1021657cf7c89a69d07c"
 dependencies = [
  "cached",
  "deunicode",
  "fxhash",
  "rust-stemmers",
  "stop-words",
+ "unicode-segmentation",
 ]
 
 [[package]]
