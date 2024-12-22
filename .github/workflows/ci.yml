@@ -43,7 +43,7 @@ jobs:
       - name: Install Binstall
         uses: cargo-bins/cargo-binstall@main
       - name: Install Trunk
-        run: cargo binstall trunk
+        run: cargo binstall trunk --force
       - name: Build
         run: trunk build --release --public-url /bm25-demo/
       - name: Upload artifact
