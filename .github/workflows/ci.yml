@@ -1,9 +1,10 @@
-name: Deploy to GitHub Pages
+name: CI/CD
 
 on:
   push:
     branches: ["main"]
-
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -30,6 +31,7 @@ jobs:
 
   build:
     name: 🏗️ Build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -53,6 +55,7 @@ jobs:
 
   deploy:
     name: 🚀 Deploy
+    if: github.ref == 'refs/heads/main'
     needs:
       - lint
       - build
