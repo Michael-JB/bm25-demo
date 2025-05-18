@@ -44,7 +44,7 @@ pub fn App() -> impl IntoView {
     let search_engine = LocalResource::new(get_search_engine);
 
     let on_query_input = move |query: String| {
-        if let Some(se) = search_engine.read().as_deref() {
+        if let Some(se) = search_engine.read().as_ref() {
             let results = se.search(&query, 5);
             set_search.set((query, results));
         }
